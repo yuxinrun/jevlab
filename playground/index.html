@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playground — JevLab</title>
+  <meta name="description" content="七个浏览器本地模拟实验：Choice、Score、Noul、Probability Explorer、Calibration Lab、Judgment Builder 与 Agent Routing Lab。" />
+  <link rel="icon" type="image/svg+xml" href="/jevlab/favicon.svg" />
+</head>
+<body data-page="playground">
+  <div id="progress"></div>
+  <div id="shell"></div>
+  <main class="lab-page">
+    <div class="lab-intro">
+      <span class="kicker">LOCAL SIMULATION LAB</span>
+      <h1>Playground</h1>
+      <p class="lab-lead">所有实验都在浏览器本地运行：不需要 API Key，不调用真实 Jev API，模拟数值不代表真实模型输出。目的是建立对分布、阈值、校准和路由策略的直觉。</p>
+    </div>
+    <nav class="lab-nav" aria-label="实验导航">
+      <a href="#choice">① Choice</a><a href="#score">② Score</a><a href="#noul">③ Noul</a>
+      <a href="#probability">④ Probability</a><a href="#calibration">⑤ Calibration</a>
+      <a href="#builder">⑥ Judgment Builder</a><a href="#routing">⑦ Agent Routing</a>
+    </nav>
+
+    <section class="lab" id="choice">
+      <h2>① Choice Playground</h2>
+      <p class="lab-lead">自定义选项与模拟概率，观察概率分布、p_max、confidence 与阈值策略。</p>
+      <div class="lab-grid">
+        <div class="lab-controls">
+          <label>问题<input type="text" id="choice-question" value="用户的主要意图是什么？" /></label>
+          <label>选项（每行一个）<textarea id="choice-options">refund
+rebooking
+information</textarea></label>
+          <label>模拟概率（逗号分隔，与选项一致；留空则均匀）<input type="text" id="choice-probs" value="0.15, 0.80, 0.05" /></label>
+          <label>自动执行阈值 p_max <input type="number" id="choice-threshold" min="0" max="1" step="0.01" value="0.75" /></label>
+          <button class="lab-btn" id="choice-run">运行模拟</button>
+        </div>
+        <div class="lab-output">
+          <h4>概率分布</h4><div id="choice-bars"></div>
+          <div id="choice-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab" id="score">
+      <h2>② Score Playground</h2>
+      <p class="lab-lead">定义有序 rubric，输入样本，查看模拟等级分布、加权 score 与 confidence。</p>
+      <div class="lab-grid">
+        <div class="lab-controls">
+          <label>评分标准（每行一级，从低到高）<textarea id="score-levels">冷静陈述事实
+担忧但礼貌
+非常愤怒或强烈措辞</textarea></label>
+          <label>输入样本<input type="text" id="score-sample" value="Our API has been returning 500 errors for 20 minutes." /></label>
+          <button class="lab-btn" id="score-run">模拟评分</button>
+        </div>
+        <div class="lab-output"><h4>等级分布</h4><div id="score-bars"></div><div id="score-result"></div></div>
+      </div>
+    </section>
+
+    <section class="lab" id="noul">
+      <h2>③ Noul Playground</h2>
+      <p class="lab-lead">命题为真的概率 p 本身就是信号。观察 yes / no 倾向与不确定区间。</p>
+      <div class="lab-grid">
+        <div class="lab-controls">
+          <label>命题<input type="text" id="noul-statement" value="这条消息包含催促退款的意图" /></label>
+          <label>概率 p = <b id="noul-value">0.50</b><input type="range" id="noul-p" min="0" max="100" value="50" /></label>
+        </div>
+        <div class="lab-output"><h4>真假倾向</h4><div id="noul-bars"></div><div id="noul-result"></div></div>
+      </div>
+    </section>
+
+    <section class="lab" id="probability">
+      <h2>④ Probability Explorer</h2>
+      <p class="lab-lead">同时比较多个问题的概率分布。格式：<code>问题名: p1,p2,p3</code>。</p>
+      <div class="lab-grid">
+        <div class="lab-controls">
+          <label>问题列表<textarea id="prob-input">意图: 0.8, 0.15, 0.05
+紧急程度: 0.52, 0.48
+包含 PII: 0.97, 0.03</textarea></label>
+          <button class="lab-btn" id="prob-run">绘制分布</button>
+        </div>
+        <div class="lab-output" id="prob-output"></div>
+      </div>
+    </section>
+
+    <section class="lab" id="calibration">
+      <h2>⑤ Calibration Lab</h2>
+      <p class="lab-lead">生成模拟预测样本，按置信度分桶，绘制可靠性图并计算 Brier Score 与 ECE。</p>
+      <div class="lab-grid">
+        <div class="lab-controls">
+          <label>样本数<input type="number" id="cal-n" value="600" min="100" max="2000" /></label>
+          <label>校准偏差噪声（%）<input type="range" id="cal-noise" min="0" max="60" value="20" /></label>
+          <label>随机种子<input type="text" id="cal-seed" value="jevlab-2026" /></label>
+          <button class="lab-btn" id="cal-run">生成并评估</button>
+          <div class="stat-grid" id="cal-stats"></div>
+        </div>
+        <div class="lab-output">
+          <div id="cal-chart"></div>
+          <div id="cal-table"></div>
+          <p class="lab-note">模拟数据声明：以下样本由浏览器伪随机生成，用于演示指标计算方法，不是 Jev 的真实预测或独立评测结果。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab" id="builder">
+      <h2>⑥ Judgment Builder</h2>
+      <p class="lab-lead">创建多个判断，设定概率与阈值，定义确定性组合规则，观察最终执行路径。</p>
+      <div class="lab-controls">
+        <div id="builder-rows"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">
+          <label>组合规则<select id="builder-mode"><option value="all">全部通过</option><option value="majority">多数通过</option></select></label>
+          <label>风险等级<select id="builder-risk"><option value="low">低</option><option value="medium" selected>中</option><option value="high">高</option></select></label>
+          <button class="lab-btn" id="builder-add">+ 添加判断</button>
+          <button class="lab-btn" id="builder-run">计算路径</button>
+        </div>
+      </div>
+      <div class="lab-output" id="builder-output" style="margin-top:16px"></div>
+    </section>
+
+    <section class="lab" id="routing">
+      <h2>⑦ Agent Routing Lab</h2>
+      <p class="lab-lead">模拟 Tool / Model / Skill Routing、Confidence Gate、Human Approval 与 Fallback。</p>
+      <div class="lab-grid">
+        <div class="lab-controls">
+          <label>路由类型<select id="routing-kind"><option value="tool">Tool Routing</option><option value="model">Model Routing</option><option value="skill">Skill Routing</option></select></label>
+          <label>判断概率 p = <b id="routing-p-label">0.80</b><input type="range" id="routing-p" min="0" max="100" value="80" /></label>
+          <label>动作风险<select id="routing-risk"><option value="low">低</option><option value="medium" selected>中</option><option value="high">高</option></select></label>
+          <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="routing-human" /> 启用人工审批（高风险）</label>
+          <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="routing-fallback" checked /> 启用 Fallback</label>
+          <button class="lab-btn" id="routing-run">模拟路由</button>
+        </div>
+        <div class="lab-output" id="routing-output"></div>
+      </div>
+    </section>
+  </main>
+  <footer id="site-footer"></footer>
+  <button id="back-to-top" aria-label="返回顶部">↑</button>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

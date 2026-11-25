@@ -1,0 +1,21 @@
+{
+  "name": "jevlab",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Jev & System One Engineering Knowledge Base — 中文深度教程网站",
+  "scripts": {
+    "generate": "node scripts/generate-content.mjs && node scripts/generate-diagrams.mjs",
+    "dev": "npm run generate && vite",
+    "build": "npm run generate && vite build && node scripts/prerender.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "capture": "node scripts/capture.mjs",
+    "verify": "node scripts/verify.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.10",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}

@@ -1,0 +1,48 @@
+const d = (day, level, title, goal, articles, task, reading, outcome, quiz) =>
+  ({ day, level, title, goal, articles, task, reading, outcome, quiz });
+
+export const levels = [
+  'Level 1 · 理解 Jev 和 System One',
+  'Level 2 · 掌握 Choice / Score / Noul',
+  'Level 3 · 理解 State 与 Typed Answers',
+  'Level 4 · 学习 Atomic Judgment',
+  'Level 5 · 学习 Probability 和 Confidence',
+  'Level 6 · 学习 Calibration',
+  'Level 7 · 构建 Judgment Layer',
+  'Level 8 · 集成 Agent',
+  'Level 9 · 构建生产级系统',
+  'Level 10 · 开发自己的 Judgment Runtime',
+];
+
+export const days = [
+  d(1, 1, 'Jev 的定位与边界', '能说清 Jev 是什么、不是什么', ['intro-what-is-jev'], '写一段 150 字说明：Jev 与 Agent Framework 的区别', '官方文档 Introduction + Models', '一份定位说明', 'Jev 是开源模型吗？'),
+  d(2, 1, 'System One 模型类别', '理解 System One 的定义与命名来源', ['intro-system-one'], '列出 System One 与传统 LLM 的五个差异', 'System One 概念页', '对比表', 'System One 是具体产品吗？'),
+  d(3, 1, '为什么需要 Judgment Model', '识别代码无法处理的语义缺口', ['intro-why-judgment'], '从你的项目里找出三个语义判断点', '官方博客 Don’t Call It a Decision Model', '语义判断清单', '哪些判断应该留在代码里？'),
+  d(4, 1, 'Jev 与传统 LLM', '避免把 Jev 当成聊天模型', ['intro-vs-llm'], '设计一个小对照评测方案', '发布博客 Introducing System One Models & Jev', '评测方案草稿', '厂商性能数字能否写成独立结论？'),
+  d(5, 1, '结构化输出 ≠ 类型化判断', '区分 JSON Schema 与判别器 schema', ['intro-vs-json'], '对比同一任务的两种实现', 'OpenAPI Schema', '差异笔记', 'confidence 字段的来源有何不同？'),
+  d(6, 1, '与分类模型和规则引擎比较', '明确技术选型的边界', ['intro-vs-classifier', 'intro-vs-rules'], '为一个真实需求做选型决策', 'Models 文档', '选型记录', '什么时候仍应训练分类器？'),
+  d(7, 1, 'Jev 与 Agent Framework', '确定 Jev 在系统中的层数', ['intro-vs-agent-framework'], '画出你的系统分层图', '官方 skills 仓库', '架构草图', 'Jev 会维护 Agent 状态吗？'),
+  d(8, 2, 'Choice 原理', '理解答案空间与强制选择', ['choice-principle'], '用 Playground 调整一个 Choice 分布', '官方 Primitives · Choice', '分布截图与解释', 'Choice 为什么会强制选一项？'),
+  d(9, 2, 'Choice 选项设计', '设计互斥、覆盖、稳定的选项', ['choice-design'], '重写一个真实分类任务的 criteria', '官方 Cookbooks · hierarchical classification', '改进后的选项表', '为什么要避免 other 选项？'),
+  d(10, 2, 'Choice Confidence', '掌握 p_max 与 confidence 公式', ['choice-confidence'], '手算三组分布的 confidence', '官方 Confidence 文档', '手算结果', 'confidence 等于答案正确概率吗？'),
+  d(11, 2, 'Score 与 Rubric', '设计有序等级', ['score-rubric'], '为一个评分任务写 4 级 rubric', '官方 Primitives · Score', 'rubric 文档', 'Score 为什么可以是小数？'),
+  d(12, 2, 'Noul 原理', '掌握 0.7/0.3 起始阈值', ['noul-truth'], '写五个 Noul 判断并标注期望阈值', '官方 Primitives · Noul', '判断清单', 'Noul 有 confidence 字段吗？'),
+  d(13, 2, 'Box 与实验性能力', '理解 Danger Zone 与 Dreamer-ready', ['box-localization'], '列出 Box 上线前的三项安全检查', '官方 Box 文档 + Jev 1.14 博客', '风险清单', 'Box 为什么必须搭配 Noul？'),
+  d(14, 2, '四种原语综合选择', '能用决策树选择 primitive', ['primitives-compare'], '把五个需求映射到 primitive', 'Primitives 总览', '映射表', '颜色分类应该用哪种类型？'),
+  d(15, 3, 'State 设计', '构造可引用、不过载的 state', ['arch-state'], '重构一个真实 state 为结构化 JSON', '官方 State 文档', 'state JSON', '为什么要用反引号路径引用？'),
+  d(16, 3, 'Questions 接口', '写完整的 instructions 与 criteria', ['arch-questions'], '审查并修正十个已有问题', '官方 Primitives 文档', '问题审查表', 'question ID 会发给模型吗？'),
+  d(17, 3, 'Typed Answers', '安全消费响应字段', ['arch-typed-answers'], '写一个判别器类型守卫', 'OpenAPI Answer schema', 'TypeScript 类型代码', '哪个 Answer 没有 confidence？'),
+  d(18, 3, 'API 数据结构', '逐字段核对请求响应', ['arch-api-schema'], '手工构造一个完整 JSON 请求', 'OpenAPI 原文', '请求样例', 'Box 坐标的取值范围是什么？'),
+  d(19, 4, 'Judgment vs Decision', '掌握本站核心原则', ['judgment-vs-decision'], '把一个巨型 Choice 拆成判断+规则', '官方博客原文', '重构前后对比', '最终决策应该由谁做出？'),
+  d(20, 4, 'Atomic Questions', '把复杂问题拆成原子判断', ['atomic-questions'], '拆分一个真实业务判断并画出依赖图', '官方 Patterns', '拆分方案', '为什么问题要相互独立？'),
+  d(21, 4, 'Deterministic Logic', '实现可审计路径', ['deterministic-logic'], '为规则函数写单元测试', '本站 Judgment Runtime 文章', '测试文件', '为什么要记录 trace？'),
+  d(22, 5, 'Probability 与 Confidence', '正确读取分布与摘要', ['probability-confidence'], '用 Playground 对比三组分布', '官方 Confidence 文档', '对比笔记', 'Choice 的 confidence 只看什么？'),
+  d(23, 5, '阈值与三档动作', '按风险设计自动化策略', ['risk-automation'], '为三类动作设定阈值表', '官方 Confidence 路由示例', '策略表', '高风险动作应如何设阈值？'),
+  d(24, 6, 'Calibration 基础', '理解可靠性图与 ECE', ['calibration'], '在 Calibration Lab 调整噪声观察指标', '本站 Calibration 文章', '指标记录', 'ECE 衡量什么？'),
+  d(25, 6, '自有数据评估', '搭建离线评估流水线', ['production-eval'], '整理 100 条标注样本并跑一次评估', '官方 Cookbooks', '评估报告', '为什么不能用厂商 benchmark 代替？'),
+  d(26, 7, 'Agent Judgment Layer', '封装 Provider 与策略层', ['agent-judgment-layer'], '实现 JudgmentProvider 接口', '官方 coding agents 文档', '接口代码', 'Judgment Layer 应该执行工具吗？'),
+  d(27, 7, 'Tool / Model / Skill Routing', '实现三层路由与 gate', ['agent-routing'], '在 Routing Lab 模拟三种路由', '官方 Cookbooks · function calling', '路由配置', 'Fallback 触发条件有哪些？'),
+  d(28, 8, '工单路由实战', '端到端实现一个案例', ['practice-ticket-router'], '实现并单测 decide 函数', '官方 Quickstart', '可运行示例', '为什么金额判断不该交给模型？'),
+  d(29, 9, '生产工程化', '缓存、去重、可观测与回归', ['api-errors', 'production-eval'], '设计监控面板与告警阈值', '官方 Request rules and errors', '监控设计', '哪些错误应该重试？'),
+  d(30, 10, '自研 Judgment Runtime', '组装完整运行时', ['practice-runtime'], '完成一个含 FakeProvider 的运行时并通过测试', '本站全部核心文章', '最小可运行 Runtime', '缓存键为什么必须包含模型版本？'),
+];
