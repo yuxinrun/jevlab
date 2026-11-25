@@ -14,6 +14,9 @@ JevLab 是一个从零构建的中文技术教程网站，系统研究 Jev、Sys
 
 - GitHub 仓库：<https://github.com/yuxinrun/jevlab>
 - GitHub Pages：<https://yuxinrun.github.io/jevlab/>
+- 自定义域名（实际访问地址）：<https://www.yuxin.run/jevlab/>
+
+> 由于账号主站 `yuxinrun.github.io` 已绑定自定义域名 `www.yuxin.run`，GitHub 会把 `yuxinrun.github.io/jevlab/` 自动重定向到 `https://www.yuxin.run/jevlab/`。这是 GitHub Pages 的域名继承行为，不是站点故障；请以后者作为正式地址。
 
 本站是独立技术教程项目，不是 TypeSafe 官方网站。
 
@@ -154,9 +157,8 @@ npm run capture
 
 ## GitHub Pages 部署
 
-1. 在 GitHub 仓库页面进入 **Settings → Pages**。
-2. Build and deployment 的 Source 选择 **GitHub Actions**。
-3. 仓库根目录已有 `.github/workflows/deploy.yml`，推送到 `main` 后自动执行：
+1. **必须先启用 Pages**：在仓库页面进入 **Settings → Pages**，Build and deployment 的 Source 选择 **GitHub Actions** 并保存。若未做这一步，`actions/configure-pages@v5` 会报 `Get Pages site failed ... Not Found` 并导致部署失败。
+2. 仓库根目录已有 `.github/workflows/deploy.yml`，推送到 `main` 后自动执行：
    - `actions/checkout@v4`
    - `actions/setup-node@v4`（Node 22）
    - `npm install`
@@ -165,7 +167,7 @@ npm run capture
    - `npm run build`
    - `actions/upload-pages-artifact@v3`（上传 `dist`）
    - `actions/deploy-pages@v4`
-4. 部署完成后访问 <https://yuxinrun.github.io/jevlab/>。
+3. 部署完成后访问 <https://www.yuxin.run/jevlab/>（或访问 `yuxinrun.github.io/jevlab/`，会自动重定向到该地址）。
 
 子路径适配：
 
